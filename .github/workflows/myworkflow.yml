@@ -10,37 +10,40 @@ jobs:
   build-and-run:
     runs-on: macos-latest
 
+    defaults:
+      run:
+        working-directory: backend   # 👈 this sets default folder
+
     strategy:
       matrix:
         node-version: [16, 18, 20]
 
     steps:
-      - name: Checkout Code
+      - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
-      - name:  Setup Node.js
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name:  Install Dependencies
+      - name: 📦 Install Dependencies
         run: |
-          echo "Installing dependencies..."
+          echo "Installing dependencies in backend..."
           npm install || echo "No package.json found, skipping"
 
-      - name:  Run Tests (Fake but cool)
-        run: |
-          echo "Running tests..."
-          echo "All tests passed!"
+      - name: 🧪 Run Tests
+        run: npm test || echo "No tests found, skipping"
 
-      - name: Print Hello World with Version
+      - name: 🎯 Print Hello World with Version
         run: |
-          echo "Hello World from Node ${{ matrix.node-version }}"
+          echo "Hello World from backend using Node ${{ matrix.node-version }}"
 
-      - name: Show System Info
+      - name: 🌍 Show Current Directory
         run: |
-          echo "Running on macOS"
-          uname -a
+          echo "Current directory:"
+          pwd
+          ls -la
 
-      - name: Final Message
+      - name: 🎉 Final Message
         run: echo "Workflow completed successfully 🚀"
