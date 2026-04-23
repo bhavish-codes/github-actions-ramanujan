@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: repo clone
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: Install Dependencies
         run: |
           echo "Installing dependencies in backend..."
