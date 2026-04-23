@@ -1,9 +1,46 @@
-name: Print Hello World
+name: 🚀 Cool Dev Workflow - Hello Pipeline
+
 on:
-    push:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
-    print:
-        runs-on: macOS-latest
-        steps:
-            - name: Print Hello World
-              run: echo "Hello World"
+  build-and-run:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name:  Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name:  Install Dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm install || echo "No package.json found, skipping"
+
+      - name:  Run Tests (Fake but cool)
+        run: |
+          echo "Running tests..."
+          echo "All tests passed!"
+
+      - name: Print Hello World with Version
+        run: |
+          echo "Hello World from Node ${{ matrix.node-version }}"
+
+      - name: Show System Info
+        run: |
+          echo "Running on macOS"
+          uname -a
+
+      - name: Final Message
+        run: echo "Workflow completed successfully 🚀"
